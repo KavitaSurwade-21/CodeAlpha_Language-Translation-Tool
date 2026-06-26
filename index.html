@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinguaFlow — AI Translator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <div class="bg-gradient"></div>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon"><i class="fa-solid fa-language"></i></span>
+        <span class="logo-text">LinguaFlow</span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="historyToggle" title="Translation History">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+        </button>
+        <button class="icon-btn" id="darkToggle" title="Toggle Dark Mode">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="hero-text">
+      <h1>Translate anything, instantly</h1>
+      <p>100+ languages powered by Google Translate</p>
+    </div>
+
+    <div class="translator-card">
+
+      <div class="lang-bar">
+        <div class="lang-select-wrap">
+          <label>From</label>
+          <select id="sourceLang">
+            <option value="auto">Detect Language</option>
+            {% for code, name in languages.items() %}
+            <option value="{{ code }}">{{ name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <button class="swap-btn" id="swapBtn" title="Swap languages">
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+        </button>
+
+        <div class="lang-select-wrap">
+          <label>To</label>
+          <select id="targetLang">
+            {% for code, name in languages.items() %}
+            <option value="{{ code }}" {% if code == 'hi' %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="text-panels">
+
+        <div class="panel panel-input">
+          <textarea id="inputText" placeholder="Enter text to translate..." spellcheck="true" maxlength="5000"></textarea>
+          <div class="panel-footer">
+            <span class="char-count"><span id="charCount">0</span> / 7000</span>
+            <div class="panel-actions">
+              <button class="action-btn" id="clearBtn" title="Clear text">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+              <button class="action-btn" id="speakInput" title="Speak input">
+                <i class="fa-solid fa-volume-high"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-divider">
+          <button class="translate-btn" id="translateBtn">
+            <span class="btn-text">Translate</span>
+            <i class="fa-solid fa-bolt"></i>
+            <span class="loading-ring" id="loadingRing"></span>
+          </button>
+        </div>
+
+        <div class="panel panel-output">
+          <div id="outputText" class="output-area">
+            <span class="placeholder-text">Translation will appear here...</span>
+          </div>
+          <div class="panel-footer">
+            <span class="output-lang-label" id="outputLangLabel"></span>
+            <div class="panel-actions">
+              <button class="action-btn" id="copyBtn" title="Copy translation">
+                <i class="fa-solid fa-copy"></i>
+              </button>
+              <button class="action-btn" id="speakOutput" title="Speak translation">
+                <i class="fa-solid fa-volume-high"></i>
+              </button>
+              <button class="action-btn" id="downloadBtn" title="Download translation">
+                <i class="fa-solid fa-download"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="history-panel" id="historyPanel">
+      <div class="history-header">
+        <span><i class="fa-solid fa-clock-rotate-left"></i> &nbsp;History</span>
+        <button class="icon-btn small" id="clearHistory" title="Clear history">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+      <div class="history-list" id="historyList">
+        <p class="empty-state">No translations yet.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
